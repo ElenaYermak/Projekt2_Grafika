@@ -93,7 +93,11 @@ namespace Ptojekt2_Yermak
             foreach (Trojkat item in szescian)
             {
                 Trojkat trojkatPr;
-                MatrixIncrease(matrixPr, item, trojkatPr);
+                MatrixIncrease(matrixPr, item[0], trojkatPr[0]);
+                MatrixIncrease(matrixPr, item[1], trojkatPr[1]);
+                MatrixIncrease(matrixPr, item[2], trojkatPr[2]);
+                
+
             }
         }
     }
