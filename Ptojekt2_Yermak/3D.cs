@@ -11,13 +11,13 @@ namespace Ptojekt2_Yermak
 {
     class _3D
     {
-        Matrix4x4 matrix;
+        
         Bitmap bitmap;
         PictureBox pictureBox;
 
         Vector3 myCamera;
 
-        private void MatrixMnożenia(Matrix4x4 projection, Vector3 a, Vector3 b)
+        private void MatrixIncrease(Matrix4x4 projection, Vector3 a, Vector3 b)
         {
             b.X = a.X * projection.M11 + a.Y * projection.M21 + a.Z * projection.M31 + projection.M41;
             b.Y = a.X * projection.M12 + a.Y * projection.M22 + a.Z * projection.M32 + projection.M42;
@@ -46,29 +46,44 @@ namespace Ptojekt2_Yermak
         }
 
         List<Trojkat> szescian;
+        Matrix4x4 matrixPr;
         public _3D(PictureBox image)
         {
             this.pictureBox = image;
             myCamera = new Vector3(0, 0, 0);
             szescian = new List<Trojkat>();
 
-            szescian.Add(new Trojkat(new Vector3(0, 0, 0), new Vector3(0, 1, 0), new Vector3(1, 1, 0)));
-            szescian.Add(new Trojkat(new Vector3(0, 0, 0), new Vector3(1, 1, 0), new Vector3(1, 0, 0)));
+            szescian.Add(new Trojkat(new Vector3(0f, 0f, 0f), new Vector3(0f, 1f, 0f), new Vector3(1f, 1f, 0f)));
+            szescian.Add(new Trojkat(new Vector3(0f, 0f, 0f), new Vector3(1f, 1f, 0f), new Vector3(1f, 0f, 0f)));
 
-            szescian.Add(new Trojkat(new Vector3(1, 0, 0), new Vector3(1, 1, 0), new Vector3(1, 1, 1)));
-            szescian.Add(new Trojkat(new Vector3(1, 0, 0), new Vector3(1, 1, 1), new Vector3(1, 0, 1)));
+            szescian.Add(new Trojkat(new Vector3(1f, 0f, 0f), new Vector3(1f, 1f, 0f), new Vector3(1f, 1f, 1f)));
+            szescian.Add(new Trojkat(new Vector3(1f, 0f, 0f), new Vector3(1f, 1f, 1f), new Vector3(1f, 0f, 1f)));
 
-            szescian.Add(new Trojkat(new Vector3(1, 0, 1), new Vector3(1, 1, 1), new Vector3(0, 1, 1)));
-            szescian.Add(new Trojkat(new Vector3(1, 0, 1), new Vector3(0, 1, 1), new Vector3(0, 0, 1)));
+            szescian.Add(new Trojkat(new Vector3(1f, 0f, 1f), new Vector3(1f, 1f, 1f), new Vector3(0f, 1f, 1f)));
+            szescian.Add(new Trojkat(new Vector3(1f, 0f, 1f), new Vector3(0f, 1f, 1f), new Vector3(0f, 0f, 1f)));
 
-            szescian.Add(new Trojkat(new Vector3(0, 0, 1), new Vector3(0, 1, 1), new Vector3(0, 1, 0)));
-            szescian.Add(new Trojkat(new Vector3(0, 0, 1), new Vector3(0, 1, 0), new Vector3(0, 0, 0)));
+            szescian.Add(new Trojkat(new Vector3(0f, 0f, 1f), new Vector3(0f, 1f, 1f), new Vector3(0f, 1f, 0f)));
+            szescian.Add(new Trojkat(new Vector3(0f, 0f, 1f), new Vector3(0f, 1f, 0f), new Vector3(0f, 0f, 0f)));
 
-            szescian.Add(new Trojkat(new Vector3(0, 1, 0), new Vector3(0, 1, 1), new Vector3(1, 1, 1)));
-            szescian.Add(new Trojkat(new Vector3(0, 1, 0), new Vector3(1, 1, 1), new Vector3(1, 1, 0)));
+            szescian.Add(new Trojkat(new Vector3(0f, 1f, 0f), new Vector3(0f, 1f, 1f), new Vector3(1f, 1f, 1f)));
+            szescian.Add(new Trojkat(new Vector3(0f, 1f, 0f), new Vector3(1f, 1f, 1f), new Vector3(1f, 1f, 0f)));
 
-            szescian.Add(new Trojkat(new Vector3(1, 0, 1), new Vector3(0, 0, 1), new Vector3(0, 0, 0)));
-            szescian.Add(new Trojkat(new Vector3(1, 0, 1), new Vector3(0, 0, 0), new Vector3(1, 0, 0)));
+            szescian.Add(new Trojkat(new Vector3(1f, 0f, 1f), new Vector3(0f, 0f, 1f), new Vector3(0f, 0f, 0f)));
+            szescian.Add(new Trojkat(new Vector3(1f, 0f, 1f), new Vector3(0f, 0f, 0f), new Vector3(1f, 0f, 0f)));
+
+            // Projection 
+            float fNear = 0.1f;
+            float fFar = 1000.0f;
+            float fFov = 90.0f;
+            float fAspectRatio =  (float)image.Height / (float)image.Width;
+            float fFovRad = 1.0f / (float) Math.Tan(fFov * 0.5f / 180.0f * 3.14159f);
+
+            matrixPr.M11 = fAspectRatio * fFovRad;
+            matrixPr.M22 = fFovRad;
+            matrixPr.M33 = fFar / (fFar - fNear);
+            matrixPr.M43 = (-fFar - fNear) / (fFar - fNear);
+            matrixPr.M34 = 1.0f;
+            matrixPr.M44 = 0.0f;
         }
 
         public void Uzytkownik(TimeSpan time)
@@ -77,7 +92,8 @@ namespace Ptojekt2_Yermak
 
             foreach (Trojkat item in szescian)
             {
-
+                Trojkat trojkatPr;
+                MatrixIncrease(matrixPr, item, trojkatPr);
             }
         }
     }
