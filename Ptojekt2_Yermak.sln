@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29926.136
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ptojekt2_Yermak", "Ptojekt2_Yermak\Ptojekt2_Yermak.csproj", "{4CD9CDCC-DCFC-4E7D-BAFC-B70510B02C8B}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{4CD9CDCC-DCFC-4E7D-BAFC-B70510B02C8B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4CD9CDCC-DCFC-4E7D-BAFC-B70510B02C8B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4CD9CDCC-DCFC-4E7D-BAFC-B70510B02C8B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4CD9CDCC-DCFC-4E7D-BAFC-B70510B02C8B}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {122FE0B3-4F2E-4721-B139-9975D6A828D6}
+	EndGlobalSection
+EndGlobal
