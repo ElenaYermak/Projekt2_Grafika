@@ -1,58 +1,64 @@
 ﻿using System;
+using System.Drawing;
+using System.Windows.Forms;
 
-public class DrawLine
+
+namespace Ptojekt2_Yermak
 {
-    public Bitmap AlgorytmPrzyrostowy(Bitmap btm, int X1, int Y1, int X2, int Y2)
+    class DrawLine
     {
-        int x;
-        int y;
-
-        float deltaX, deltaY, m;
-        deltaX = X2 - X1;
-        deltaY = Y2 - Y1;
-        m = deltaY / deltaX;
-        float yM = Y1;
-        float xM = X1;
-
-        if (Math.Abs(m) >= 1)
+        public Bitmap AlgorytmPrzyrostowy(Bitmap btm, float X1, float Y1, float X2, float Y2)
         {
-            for (y = Y1; y <= Y2; y++)
-            {
-                btm.SetPixel((int)Math.Floor(xM + 0.5), y, Color.Brown);
-                xM = xM + (1 / m);
-            }
-        }
-        else
-        {
-            for (x = X1; x <= X2; x++)
-            {
-                btm.SetPixel(x, (int)Math.Floor(yM + 0.5), Color.Brown);
-                yM += m;
-            }
-        }
+            float x;
+            float y;
 
-        if (Y1 > Y2 || X1 > X2)
-        {
+            float deltaX, deltaY, m;
+            deltaX = X2 - X1;
+            deltaY = Y2 - Y1;
+            m = deltaY / deltaX;
+            float yM = Y1;
+            float xM = X1;
+
             if (Math.Abs(m) >= 1)
             {
-                xM = X2;
-                for (y = Y2; y <= Y1; y++)
+                for (y = Y1; y <= Y2; y++)
                 {
-                    btm.SetPixel((int)Math.Floor(xM + 0.5), y, Color.Brown);
+                    btm.SetPixel((int)Math.Floor(xM + 0.5), (int)y, Color.Black);
                     xM = xM + (1 / m);
                 }
             }
             else
             {
-                yM = Y2;
-                for (x = X2; x <= X1; x++)
+                for (x = X1; x <= X2; x++)
                 {
-                    btm.SetPixel(x, (int)Math.Floor(yM + 0.5), Color.Brown);
+                    btm.SetPixel((int)x, (int)Math.Floor(yM + 0.5), Color.Black);
                     yM += m;
                 }
             }
-        }
 
-        return btm;
+            if (Y1 > Y2 || X1 > X2)
+            {
+                if (Math.Abs(m) >= 1)
+                {
+                    xM = X2;
+                    for (y = Y2; y <= Y1; y++)
+                    {
+                        btm.SetPixel((int)Math.Floor(xM + 0.5), (int)y, Color.Black);
+                        xM = xM + (1 / m);
+                    }
+                }
+                else
+                {
+                    yM = Y2;
+                    for (x = X2; x <= X1; x++)
+                    {
+                        btm.SetPixel((int)x, (int)Math.Floor(yM + 0.5), Color.Black);
+                        yM += m;
+                    }
+                }
+            }
+
+            return btm;
+        }
     }
 }

@@ -1,0 +1,12 @@
+C:\Users\Alena\Desktop\GitHub\Ptojekt2_Yermak\Ptojekt2_Yermak\bin\Debug\Ptojekt2_Yermak.exe.config
+C:\Users\Alena\Desktop\GitHub\Ptojekt2_Yermak\Ptojekt2_Yermak\bin\Debug\Ptojekt2_Yermak.exe
+C:\Users\Alena\Desktop\GitHub\Ptojekt2_Yermak\Ptojekt2_Yermak\bin\Debug\Ptojekt2_Yermak.pdb
+C:\Users\Alena\Desktop\GitHub\Ptojekt2_Yermak\Ptojekt2_Yermak\bin\Debug\System.Numerics.Vectors.dll
+C:\Users\Alena\Desktop\GitHub\Ptojekt2_Yermak\Ptojekt2_Yermak\obj\Debug\Ptojekt2_Yermak.csprojAssemblyReference.cache
+C:\Users\Alena\Desktop\GitHub\Ptojekt2_Yermak\Ptojekt2_Yermak\obj\Debug\Ptojekt2_Yermak.Form1.resources
+C:\Users\Alena\Desktop\GitHub\Ptojekt2_Yermak\Ptojekt2_Yermak\obj\Debug\Ptojekt2_Yermak.Properties.Resources.resources
+C:\Users\Alena\Desktop\GitHub\Ptojekt2_Yermak\Ptojekt2_Yermak\obj\Debug\Ptojekt2_Yermak.csproj.GenerateResource.cache
+C:\Users\Alena\Desktop\GitHub\Ptojekt2_Yermak\Ptojekt2_Yermak\obj\Debug\Ptojekt2_Yermak.csproj.CoreCompileInputs.cache
+C:\Users\Alena\Desktop\GitHub\Ptojekt2_Yermak\Ptojekt2_Yermak\obj\Debug\Ptojekt2_Yermak.csproj.CopyComplete
+C:\Users\Alena\Desktop\GitHub\Ptojekt2_Yermak\Ptojekt2_Yermak\obj\Debug\Ptojekt2_Yermak.exe
+C:\Users\Alena\Desktop\GitHub\Ptojekt2_Yermak\Ptojekt2_Yermak\obj\Debug\Ptojekt2_Yermak.pdb
