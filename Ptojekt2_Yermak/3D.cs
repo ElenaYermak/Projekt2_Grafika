@@ -25,7 +25,7 @@ namespace Ptojekt2_Yermak
             listTrojkat[2] = c;
         }
 
-        public int CompareTo(Trojkat other)
+        public int CompareTo(Trojkat other)  // dla algorytmu malarskiego, porównujemy Z-ety 
         {
             float trojkat1 = (listTrojkat[0].Z + listTrojkat[1].Z + listTrojkat[2].Z) / 3.0f;
             float trojkat2 = (other.listTrojkat[0].Z + other.listTrojkat[1].Z + other.listTrojkat[2].Z) / 3.0f;
@@ -37,12 +37,7 @@ namespace Ptojekt2_Yermak
     }
     class _3D
     {
-        //DrawLine drawLine = new DrawLine();
-        Bitmap bitmap;
-        PictureBox pictureBox;
-        
-
-        private void MatrixIncrease(Matrix4x4 projection, Trojkat a, Trojkat b)  // Macierz mnożenia - zapisuję się do b projekcja a 
+        private void MatrixIncrease(Matrix4x4 projection, Trojkat a, Trojkat b)  // zapisuję się do b projekcja a 
         {
             for (int i = 0; i < 3; i++)
             {
@@ -61,13 +56,15 @@ namespace Ptojekt2_Yermak
             }
         }
 
-
-
+        Bitmap bitmap;
+        PictureBox pictureBox;
         List<Trojkat> szescian;
         Matrix4x4 matrixPr;
         SubsidiaryClass matrixProj = new SubsidiaryClass();
-        public _3D(PictureBox image)    // tworzenie szesciana
+
+        public _3D(PictureBox image)    // tworzenie figur
         {
+            // ładowanie obrazu z Blender  
             this.pictureBox = image;
             myCamera = new Vector4(0, 0, 0, 1);
 
@@ -76,7 +73,7 @@ namespace Ptojekt2_Yermak
 
             szescian = figure.myFigures;
 
-            // Projection matrix
+            // Macierz projekcji 
             float fNear = 0.1f;
             float fFar = 1000.0f;
             float fFov = 90.0f;
@@ -84,7 +81,7 @@ namespace Ptojekt2_Yermak
             matrixPr = matrixProj.ProjectionMatrix(fNear, fFar, fFov, fAspectRatio);
         }
 
-        private void TrPr(Trojkat trojkat)  // из белого квадрата нормализируем, чтобы был виден 
+        private void TrPr(Trojkat trojkat)  // dla skalowania  
         {
             for (int i = 0; i < 3; i++)
             {
@@ -96,11 +93,11 @@ namespace Ptojekt2_Yermak
             }
         }
 
-        private void TrTr(Trojkat trojkat, Trojkat proj)
+        private void TrTr(Trojkat trojkat, Trojkat proj) // dla skalowania
         {
             for (int i = 0; i < 3; i++)
             {
-                trojkat.listTrojkat[i].Z = proj.listTrojkat[i].Z + 10.0f;
+                trojkat.listTrojkat[i].Z = proj.listTrojkat[i].Z + 8.0f;
             }
         }
 
@@ -112,21 +109,16 @@ namespace Ptojekt2_Yermak
 
         float YawAngle;
 
-
-
         public void Uzytkownik(TimeSpan time)
         {
-            List<Trojkat> fillTrokat = new List<Trojkat>();
-
+            
             bitmap = new Bitmap(pictureBox.Width, pictureBox.Height);
-
             double eTime = time.TotalMilliseconds / 1000;
 
-            
+            theta += 1.0f * (float)eTime; // dla obracania sceny 
 
-            //theta += 1.0f * (float)eTime;
-
-            if ((Keyboard.GetKeyStates(Key.Up) & KeyStates.Down) > 0)
+            // strzałki do obracania sceny
+            if ((Keyboard.GetKeyStates(Key.Up) & KeyStates.Down) > 0)   
             {
                 myCamera.Y += 0.01f + (float)eTime;
             }
@@ -144,16 +136,16 @@ namespace Ptojekt2_Yermak
                 myCamera.X -= 0.01f + (float)eTime;
             }
 
-            Vector4 vForaward = myDirection * (8.0f * (float)eTime);
+            Vector4 vectorForaward = myDirection * (8.0f * (float)eTime);
 
-
+            // obracanie ze względu kamery 
             if ((Keyboard.GetKeyStates(Key.W) & KeyStates.Down) > 0)
             {
-                myCamera = subsidiaryClass.VectorADD(myCamera, vForaward);
+                myCamera = subsidiaryClass.VectorADD(myCamera, vectorForaward);
             }
             if ((Keyboard.GetKeyStates(Key.S) & KeyStates.Down) > 0)
             {
-                myCamera = subsidiaryClass.VectorSUB(myCamera, vForaward);
+                myCamera = subsidiaryClass.VectorSUB(myCamera, vectorForaward);
             }
 
             if ((Keyboard.GetKeyStates(Key.A) & KeyStates.Down) > 0)
@@ -172,13 +164,15 @@ namespace Ptojekt2_Yermak
             // camera
             Vector4 vectorUp = new Vector4( 0, 1, 0, 1 );
             Vector4 target = new Vector4(0, 0, 1, 1);
-            Matrix4x4 matrixCameraRotY = subsidiaryClass.RotY(YawAngle);
-            myDirection = subsidiaryClass.VectorsMult(target, matrixCameraRotY);
+            Matrix4x4 cameraRotY = subsidiaryClass.RotY(YawAngle);
+            myDirection = subsidiaryClass.VectorsMult(target, cameraRotY);
             target = subsidiaryClass.VectorADD(myCamera, myDirection);
-            Matrix4x4 matrixCamera = subsidiaryClass.PointAt(myCamera, target, vectorUp);
+            Matrix4x4 matrixCamera = subsidiaryClass.PointAtMatrix(myCamera, target, vectorUp);
 
             //make view matrix from camera
-            Matrix4x4 matrixView = subsidiaryClass.MatrixQuickInverse(matrixCamera);
+            Matrix4x4 matrixView = subsidiaryClass.MatrixInverse(matrixCamera);
+
+            List<Trojkat> fillTrokat = new List<Trojkat>();
 
             // rysujemy trójkąty za pomocą macierzy projekcji 
             foreach (Trojkat item in szescian)
@@ -193,6 +187,7 @@ namespace Ptojekt2_Yermak
 
                 trojkatPr = new Trojkat(new Vector4(0f, 0f, 0f, 1f), new Vector4(0f, 0f, 0f, 1f), new Vector4(0f, 0f, 0f, 1f));
 
+                // zumowanie figury
                 trojkatTr  = trojkatRotZX;
                 TrTr(trojkatTr, trojkatRotZX);
 
@@ -213,25 +208,29 @@ namespace Ptojekt2_Yermak
                 // normalizacja wektorów
                 vectorNorm = subsidiaryClass.VectorNorm(vectorNorm);
 
-                //if (vectorNorm.Z < 0) // мы видим только отрицательные Z-ety 
                 if(vectorNorm.X * (trojkatTr.listTrojkat[0].X - myCamera.X) + 
                    vectorNorm.Y * (trojkatTr.listTrojkat[0].Y - myCamera.Y) +
-                   vectorNorm.Z * (trojkatTr.listTrojkat[0].Z - myCamera.Z) < 0.0f)
+                   vectorNorm.Z * (trojkatTr.listTrojkat[0].Z - myCamera.Z) < 0.0f)   // bo widzimy tylko ujemne z-ety
                 {
-                    Vector4 light = new Vector4(0.0f, -1.0f, -1.0f, 1.0f);
+                    Vector4 light = new Vector4(0.0f, -1.0f, -1.0f, 1.0f); // ustawienie kierunku światła
                     light = subsidiaryClass.VectorNorm(light);
 
                     float fl = vectorNorm.X * light.X + vectorNorm.Y * light.Y + vectorNorm.Z * light.Z;
 
-                    MatrixIncrease(matrixView, trojkatTr, trojkatViewed);
+                    MatrixIncrease(matrixView, trojkatTr, trojkatViewed); 
 
-                    MatrixIncrease(matrixPr, trojkatViewed, trojkatPr);  // 1.  3d -> 2d 
-
-                    TrPr(trojkatPr); // 2.
-
-                    trojkatPr.fl = fl;
-
-                    fillTrokat.Add(trojkatPr);
+                    int ClippedT = 0;
+                    Trojkat[] cliped = new Trojkat[2] { new Trojkat(new Vector4(0, 0, 0, 1), new Vector4(0, 0, 0, 1), new Vector4(0, 0, 0, 1)), new Trojkat(new Vector4(0, 0, 0, 1), new Vector4(0, 0, 0, 1), new Vector4(0, 0, 0, 1)) }; ;
+                    Vector4 p_p = new Vector4(0.0f, 0.0f, 0.1f, 1.0f);
+                    Vector4 p_n = new Vector4(0.0f, 0.0f, 1.0f, 1.0f);
+                    ClippedT = subsidiaryClass.TClipAgainstPlane(p_p, p_n, trojkatViewed, ref cliped[0], ref cliped[1]);
+                    for (int i = 0; i < ClippedT; i++)
+                    {
+                        MatrixIncrease(matrixPr, cliped[i], trojkatPr);
+                        TrPr(trojkatPr);
+                        trojkatPr.fl = fl;
+                        fillTrokat.Add(trojkatPr);
+                    }
                 }
             }
 
@@ -245,6 +244,7 @@ namespace Ptojekt2_Yermak
             pictureBox.Image = bitmap;
         }
 
+        // Zafarbowanie i cienowanie figur (algorytm malarski)
         public void FillUpTrokat(Trojkat trojkat, Bitmap bitmap)
         {
             float fl = trojkat.fl;
